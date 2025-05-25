@@ -1,0 +1,35 @@
+name: Python Lint and Format Check
+
+on: 
+  pull_request:
+  push:
+
+jobs:
+  run-python-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+      - name: check out source repository
+        uses: actions/checkout@v2
+
+      - name: set up python env
+        uses: actions/checkout@v2
+        with:
+          python-version: "3.10"
+
+      - name: install rye
+        run: curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
+
+      - name: set up rye
+        run: |
+          rye pin 3.10
+          rye sync
+      
+      - name: check lint
+        run: rye run ruff check . --output-format=github
+      
+      - name: check format
+        run: rye run ruff format . --check --diff
