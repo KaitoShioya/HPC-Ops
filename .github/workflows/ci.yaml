@@ -21,11 +21,7 @@ jobs:
           python-version: "3.10"
 
       - name: install rye
-        run: curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
-      
-      - name: pass rye env variable
-        run: echo '. "$HOME/.rye/env"' >> ~/.profile
-
+        uses: sksat/setup-rye@v0.44.0
 
       - name: set up rye
         run: |
