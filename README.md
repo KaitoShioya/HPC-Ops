@@ -1,19 +1,21 @@
 # HPC-Ops
 
-スーパーコンピューター玄海とwandbを用いた実験の運用レポジトリ．
+スーパーコンピューター玄海とwandbを用いた実験運用レポジトリ．
 
 ## クイックスタート
 
-1. HPCとローカル上にて仮想環境としてRyeのセットアップを行う．
+以下をHPC上とローカル上で行う．
+
+1. 仮想環境としてRyeを用いてセットアップを行う．
     - https://rye.astral.sh/
 
-2. HPC内で以下コマンドにより本レポジトリをclone
+2. 以下コマンドにより本レポジトリをclone
 
 ```bash
-git clone <repository url>
+git clone git@github.com:KaitoShioya/HPC-Ops.git
 ```
 
-3. HPCとローカル上の環境をセットアップ
+3. ryeの環境をセットアップ
 
 ```bash
 cd HPC-Ops
@@ -21,7 +23,7 @@ rye pin 3.10
 rye sync
 ```
 
-4. `.env`ファイルにHPCのリソースグループとwandbのAPIキーを記述する．
+4. `.env`ファイルにHPCの計算資源のリソースグループとwandbのAPIキーを記述する．
 
 5. HPC上で以下コマンドを実行
 ```bash
@@ -43,16 +45,16 @@ import aiohttp
 import os
 import pickle
 import sys
+
 sys.path.append("app/")
-from importlib import import_module
 
 import wandb
 from sklearn.datasets import fetch_openml
 
-from app.core.base_flow_logic import BaseFlowLogic
 from app.schema.create_job_schema import InputModel
 
 import warnings
+
 warnings.simplefilter("ignore")
 ```
 
@@ -110,7 +112,8 @@ run.log_artifact(logic_artifact)
 run.finish()
 ```
 
-*3. 利用する生データ等があればwandbにアップロード*
+**3. 利用する生データ等があればwandbにアップロード**
+
 - scikit-learnのデータセットを利用するため，データを作成し，wandbにアップロードします．
 - 手順4においてデータセット名をパラメータとして指定することでFlow Logic内で読み込みます．
 
@@ -135,27 +138,29 @@ run.finish()
 
 - HPCのFastAPIサーバーに対して実験ジョブの投入リクエストを行います．
 - リクエストボディとして以下のようなInputModelをjsonに変換してリクエストします．
-- InputModel(BaseModel):
-    - node: Optional[int]
-        - ノード数の指定（１ノード以上の資源を使用する場合に必須）．デフォルトは`None`．
-    - vnode_core: Optional[int]
-        - コア数の指定（ノードグループAで１ノード未満の資源を利用する場合に必須）．デフォルトは`None`．
-    - gpu: Optional[int]
-        - GPU数の指定（ノードグループB，Cで１ノード未満の資源を利用する場合に必須）．デフォルトは`None`．
-    - elapse: Optional[str]
-        - ジョブの実行時間の上限を指定．デフォルトは`01:00:00`．
-    - params: Optional[dict]
-        - 実験に関するパラメータ設定．
-    - project: str
-        - wandbのプロジェクト名．必須．
-    - group: Optional[str]
-        - wandbのプロジェクトグループ名．
-    - jobtype: Optional[str]
-        - wandbのプロジェクトジョブタイプ名．
-    - run: Optional[str]
-        - wandbのプロジェクトラン名．
-    - flow_logic: str
-        - wandbに保存したflow logicファイルの名前と使用バージョン．デフォルトは`sample_flow_logic:latest`．
+
+**InputModel(BaseModel):**
+
+- node: Optional[int]
+    - ノード数の指定（１ノード以上の資源を使用する場合に必須）．デフォルトは`None`．
+- vnode_core: Optional[int]
+    - コア数の指定（ノードグループAで１ノード未満の資源を利用する場合に必須）．デフォルトは`None`．
+- gpu: Optional[int]
+    - GPU数の指定（ノードグループB，Cで１ノード未満の資源を利用する場合に必須）．デフォルトは`None`．
+- elapse: Optional[str]
+    - ジョブの実行時間の上限を指定．デフォルトは`01:00:00`．
+- params: Optional[dict]
+    - 実験に関するパラメータ設定．
+- project: str
+    - wandbのプロジェクト名．必須．
+- group: Optional[str]
+    - wandbのプロジェクトグループ名．
+- jobtype: Optional[str]
+    - wandbのプロジェクトジョブタイプ名．
+- run: Optional[str]
+    - wandbのプロジェクトラン名．
+- flow_logic: str
+    - wandbに保存したflow logicファイルの名前と使用バージョン．デフォルトは`sample_flow_logic:latest`．
 
 ```python
 base_url = "http://127.0.0.1:8000"
