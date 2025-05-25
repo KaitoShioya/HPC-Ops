@@ -1,0 +1,21 @@
+# python generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# venv
+.venv
+
+# secrete files
+.env
+
+# generated files
+tmp/*
+wandb/*
+artifacts/*
+dl_logics/*
+.python-version
+flow_logics/*
