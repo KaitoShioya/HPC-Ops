@@ -1,0 +1,40 @@
+version: 1
+
+# 既存のロガーを無効にしない (他のロガー設定を保持する)
+disable_existing_loggers: False
+
+# フォーマットの登録
+formatters:
+  default:
+    (): "uvicorn.logging.DefaultFormatter"
+    fmt: "%(asctime)s.%(msecs)03d [%(levelname)s]:  %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+    use_colors: False
+  access:
+    (): "uvicorn.logging.AccessFormatter"
+    fmt: '%(asctime)s.%(msecs)03d [%(levelname)s]:  %(client_addr)s - "%(request_line)s" %(status_code)s'
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+# ハンドラ(ログの出力先)の登録
+handlers:
+  default:
+    formatter: "default"
+    class: "logging.StreamHandler"
+    stream: "ext://sys.stderr"
+  access:
+    formatter: "access"
+    class: "logging.StreamHandler"
+    stream: "ext://sys.stdout"
+
+# ロガーの定義
+loggers:
+  uvicorn:
+    handlers: ["default"] # defaultハンドラーを使用
+    level: "DEBUG"  # INFO レベル以上を出力
+    propagate: False  # 他のロガーにログを伝播させない
+  uvicorn.error:
+    level: "INFO"
+  uvicorn.access:
+    handlers: ["access"]
+    level: "INFO"
+    propagate: False
