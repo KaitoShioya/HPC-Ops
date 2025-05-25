@@ -21,9 +21,10 @@ jobs:
           python-version: "3.10"
 
       - name: install rye
-        run: |
-          curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
-          source $HOME/.rye/env
+        run: curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
+      
+      - name: pass rye env variable
+        run: source $HOME/.rye/env
 
       - name: set up rye
         run: |
