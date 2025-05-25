@@ -24,7 +24,8 @@ jobs:
         run: curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
       
       - name: pass rye env variable
-        run: source $HOME/.rye/env
+        run: echo '. "$HOME/.rye/env"' >> ~/.profile
+
 
       - name: set up rye
         run: |
