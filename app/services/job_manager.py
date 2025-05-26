@@ -90,7 +90,7 @@ class JobManager:
         """
         before_del_status = self.get_job_stats()
         if before_del_status.job_status == "EXT":
-            self._logger.info(f"job {self.job_id} already finished or does not exits.")
+            self._logger.info(f"job {self.job_id} already finished or does not exit.")
             return before_del_status
 
         command = ["pjdel", self.job_id]
@@ -99,7 +99,7 @@ class JobManager:
         res_msg = (
             r.stdout
             if r.stdout
-            else f"job {self.job_id} already finished or does not exits."
+            else f"job {self.job_id} already finished or does not exit."
         )
         after_del_status = self.get_job_stats()
         job_status_after_del_model = JobStatusModel(
