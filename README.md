@@ -30,6 +30,24 @@ rye sync
 rye run python app/main.py
 ```
 
+上記に加えて，wandbアカウントを作成し，APIKEYを発行する必要があります．
+
+以上が完了後は，HPC上で以下コマンドのようにAPIサーバーをバックグラウンド実行すると，ssh接続を閉じてもバックグラウンドでサーバーが動作する．
+
+```bash
+cd HPC-Ops
+screen
+rye run python main/app.py
+<CTRL>+<a>
+<d>
+```
+
+この状態でssh接続を一度切断し，ターミナルから以下のようにsshポート転送を行うことでAPIサーバーへの接続が可能となる．
+
+```bash
+ssh -L 8000:genkai002:8000 <Host Name>
+```
+
 ## HPC-Opsによる実験管理チュートリアル
 
 チュートリアルでは，optunaを用いたハイパーパラメータ探索の例を使って基本的なHPC-Opsの利用方法を説明します．
