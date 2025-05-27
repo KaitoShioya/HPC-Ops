@@ -45,7 +45,7 @@ rye run python main/app.py
 この状態でssh接続を一度切断し，ターミナルから以下のようにsshポート転送を行うことでAPIサーバーへの接続が可能となる．
 
 ```bash
-ssh -L 8000:genkai002:8000 <Host Name>
+ssh -L 8000:genkai0002:8000 <Host Name>
 ```
 
 ## HPC-Opsによる実験管理チュートリアル
