@@ -36,7 +36,7 @@ class JobExecutor:
         """1つのジョブを投入する."""
         self._logger.info("Start to submit job")
         job_number = str(uuid4())
-        ts_str = str(pd.Timestamp.now(tz="Asia/Tokyo")).replace(" ", "-")
+        ts_str = pd.Timestamp.now(tz="Asia/Tokyo").strftime("%Y%m%d%H%M%S")
         tmp_dir = str(
             Path(settings.BASE_DIR_PATH) / Path(f"tmp/{ts_str}_{job_number}/")
         )

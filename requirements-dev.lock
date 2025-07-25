@@ -184,7 +184,8 @@ python-dateutil==2.9.0.post0
     # via jupyter-client
     # via matplotlib
     # via pandas
-python-dotenv==1.1.0
+python-dotenv==1.1.1
+    # via hpc-ops
     # via pydantic-settings
 pytz==2025.2
     # via pandas

@@ -9,6 +9,21 @@ from schema.create_job_schema import MultiInputModel, InputModel, OutputModel
 router = APIRouter()
 
 
+@router.post("/create-local-job", response_model=OutputModel)
+async def create_local_job(input_model: InputModel) -> OutputModel:
+    """ローカルテスト用のエンドポイント"""
+    executor = JobExecutor(input_model)
+    try:
+        await executor.execute_single_job()
+        msg = "Local job is successfuly completed"
+        status = 0
+    except Exception as e:
+        msg = e
+        status = 400
+    output = OutputModel(status=status, msg=msg)
+    return output
+
+
 @router.post("/create-job", response_model=OutputModel)
 async def create_job(input_model: InputModel) -> OutputModel:
     """1つのジョブを投入する."""

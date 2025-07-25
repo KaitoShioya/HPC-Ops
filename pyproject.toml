@@ -27,6 +27,7 @@ dependencies = [
     "wandb>=0.19.11",
     "plotly>=6.1.1",
     "nbformat>=5.10.4",
+    "python-dotenv>=1.1.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
